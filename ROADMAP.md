@@ -16,10 +16,10 @@
 - [x] S11 design tokens and results UI
 - [x] S12 copy and share
 - [x] S13 local history and repeat warning
+- [x] S14 LLM prompt builder
 
 ## To do
 
-- [ ] S14 LLM prompt builder
 - [ ] S15 output schema and content-rule checker
 - [ ] S16 LLM provider adapter (needs key)
 - [ ] S17 API route
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S14 LLM prompt builder, then S15 output checker.
+S15 output schema and content-rule checker, then S16 (needs the LLM key).
