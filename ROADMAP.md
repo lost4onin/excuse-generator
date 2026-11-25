@@ -13,10 +13,10 @@
 - [x] S8 Ticketmaster provider (env key)
 - [x] S9 template fallback engine
 - [x] S10 excuse service with fallback wiring
+- [x] S11 design tokens and results UI
 
 ## To do
 
-- [ ] S11 design tokens and results UI
 - [ ] S12 copy and share
 - [ ] S13 local history and repeat warning
 - [ ] S14 LLM prompt builder
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S11 results UI: three slips, stamps, re-roll, Offline mode.
+S12 copy and share, then S13 local history.
