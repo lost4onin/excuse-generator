@@ -1,0 +1,127 @@
+:root {
+  --ground: #e9dfc9;
+  --slip: #fbf6ea;
+  --ink: #1d1b17;
+  --muted: #5a5347;
+  --stamp: #b3261e;
+  --creative: #1f4e79;
+  --rule: #cfc3a8;
+  --font-title: "Special Elite", "Courier New", monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, monospace;
+  --gutter: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* A paper slip: perforated top edge, flat 2px shadow, square corners. */
+.slip {
+  position: relative;
+  background: var(--slip);
+  padding: 28px 20px 20px;
+  box-shadow: 0 2px 0 0 var(--ink);
+  border: 1px solid var(--ink);
+  border-top: none;
+}
+
+.slip::before {
+  content: "";
+  position: absolute;
+  inset: 0 -1px auto;
+  height: 10px;
+  background:
+    radial-gradient(circle at 6px 0, var(--ground) 4px, transparent 4.5px) 0 0 / 12px 10px repeat-x,
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 1px no-repeat;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* Data flags: red outline stamps, slightly rotated, always text. */
+.flag {
+  display: inline-block;
+  font-family: var(--font-title);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  border: 2px solid var(--stamp);
+  padding: 1px 6px;
+  transform: rotate(-3deg);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .thump {
+    animation: thump 240ms ease-out;
+  }
+
+  .slide-in {
+    animation: slide-in 260ms ease-out both;
+  }
+}
+
+@keyframes thump {
+  from {
+    transform: scale(1.15) rotate(-3deg);
+  }
+  to {
+    transform: scale(1) rotate(-3deg);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
