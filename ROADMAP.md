@@ -4,10 +4,10 @@
 
 - [x] S0 baseline: licence, SECURITY.md, `.env.example`, typed config, CI, hooks
 - [x] S1 scaffold: Next.js App Router, TypeScript strict, ESLint, Prettier, Vitest
+- [x] S2 domain types: Context, Excuse, Audience, Tier
 
 ## To do
 
-- [ ] S2 domain types: Context, Excuse, Audience, Tier
 - [ ] S3 form: reason, chips, mode, time, audience, validation
 - [ ] S4 geolocation with manual city fallback
 - [ ] S5 weather client (Open-Meteo)
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S2 domain types, then S3 form.
+S3 form: reason, chips, mode, time, audience.
