@@ -11,10 +11,10 @@
 - [x] S6 traffic estimator, "Estimated, not live"
 - [x] S7 events provider interface, demo provider, "Demo data"
 - [x] S8 Ticketmaster provider (env key)
+- [x] S9 template fallback engine
 
 ## To do
 
-- [ ] S9 template fallback engine
 - [ ] S10 excuse service with fallback wiring
 - [ ] S11 design tokens and results UI
 - [ ] S12 copy and share
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S9 template fallback engine, then S10 excuse service.
+S10 excuse service with fallback wiring, then S11 results UI.
