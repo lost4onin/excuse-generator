@@ -6,10 +6,10 @@
 - [x] S1 scaffold: Next.js App Router, TypeScript strict, ESLint, Prettier, Vitest
 - [x] S2 domain types: Context, Excuse, Audience, Tier
 - [x] S3 form: reason, chips, mode, time, audience, validation
+- [x] S4 geolocation with manual city fallback
 
 ## To do
 
-- [ ] S4 geolocation with manual city fallback
 - [ ] S5 weather client (Open-Meteo)
 - [ ] S6 traffic estimator, "Estimated, not live"
 - [ ] S7 events provider interface, demo provider, "Demo data"
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S4 geolocation with manual city fallback, then S5 weather.
+S5 weather client (Open-Meteo), then S6 traffic estimate.

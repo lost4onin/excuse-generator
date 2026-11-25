@@ -1,0 +1,48 @@
+.box {
+  border: 2px dashed var(--muted);
+  padding: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.row {
+  display: grid;
+  gap: 4px;
+}
+
+.value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.action {
+  min-height: 44px;
+  padding: 0 12px;
+  background: transparent;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.city {
+  display: grid;
+}
+
+.input {
+  min-height: 44px;
+  padding: 8px 10px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--ink);
+  border-radius: 0;
+}
+
+.error {
+  margin: 6px 0 0;
+  color: var(--stamp);
+  font-size: 14px;
+}
