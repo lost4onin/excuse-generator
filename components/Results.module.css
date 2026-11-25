@@ -150,3 +150,12 @@
   font-size: 12px;
   color: var(--muted);
 }
+
+.title:focus {
+  outline: none;
+}
+
+.title:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}

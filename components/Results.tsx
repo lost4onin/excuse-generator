@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { ExcuseResponse } from "@/lib/api";
 import type { Excuse } from "@/lib/domain";
 import { Flag, OfflineFlag } from "./Flag";
@@ -28,10 +28,15 @@ function summary(used: ExcuseResponse["used"]): string {
 export function Results({ response, busy, onEdit, onReroll, actions }: Props) {
   const { set, used } = response;
   const offline = set.source === "templates";
+  const heading = useRef<HTMLHeadingElement>(null);
+  // Move focus to the slips so keyboard and screen-reader users land on them.
+  useEffect(() => {
+    heading.current?.focus();
+  }, []);
   return (
     <section className={styles.results} aria-labelledby="slips-title">
       <header className={styles.header}>
-        <h2 id="slips-title" className={styles.title}>
+        <h2 id="slips-title" className={styles.title} ref={heading} tabIndex={-1}>
           Your slips
         </h2>
         {offline && <OfflineFlag />}

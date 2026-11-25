@@ -45,6 +45,11 @@ export function ExcuseForm({ slipNo, draft, onDraftChange, onSubmit, context, bu
       onSubmit(result.value);
     } else {
       setErrors(result.errors);
+      // Send focus to the first broken field.
+      const form = e.currentTarget;
+      requestAnimationFrame(() => {
+        form.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
+      });
     }
   };
 
