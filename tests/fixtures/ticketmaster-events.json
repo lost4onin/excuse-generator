@@ -1,0 +1,19 @@
+{
+  "_embedded": {
+    "events": [
+      {
+        "name": "Derby Night",
+        "url": "https://www.ticketmaster.example/event/1",
+        "dates": { "start": { "localDate": "2026-11-25", "localTime": "19:30:00" } },
+        "_embedded": { "venues": [{ "name": "Stade Olympique" }] }
+      },
+      { "name": "No date at all" },
+      {
+        "name": "Jazz Brunch",
+        "url": "javascript:alert(1)",
+        "dates": { "start": { "localDate": "2026-11-26" } }
+      }
+    ]
+  },
+  "page": { "size": 20, "totalElements": 3 }
+}

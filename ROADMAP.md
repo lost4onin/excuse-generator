@@ -10,10 +10,10 @@
 - [x] S5 weather client (Open-Meteo)
 - [x] S6 traffic estimator, "Estimated, not live"
 - [x] S7 events provider interface, demo provider, "Demo data"
+- [x] S8 Ticketmaster provider (env key)
 
 ## To do
 
-- [ ] S8 Ticketmaster provider (env key)
 - [ ] S9 template fallback engine
 - [ ] S10 excuse service with fallback wiring
 - [ ] S11 design tokens and results UI
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S8 Ticketmaster provider, then S9 template engine.
+S9 template fallback engine, then S10 excuse service.
