@@ -40,6 +40,9 @@
 .events a {
   color: var(--creative);
   margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .list {
