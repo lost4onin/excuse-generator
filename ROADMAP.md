@@ -8,10 +8,10 @@
 - [x] S3 form: reason, chips, mode, time, audience, validation
 - [x] S4 geolocation with manual city fallback
 - [x] S5 weather client (Open-Meteo)
+- [x] S6 traffic estimator, "Estimated, not live"
 
 ## To do
 
-- [ ] S6 traffic estimator, "Estimated, not live"
 - [ ] S7 events provider interface, demo provider, "Demo data"
 - [ ] S8 Ticketmaster provider (env key)
 - [ ] S9 template fallback engine
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S6 traffic estimate, then S7 events.
+S7 events provider and demo data, then S9 template engine.
