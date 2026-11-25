@@ -7,10 +7,10 @@
 - [x] S2 domain types: Context, Excuse, Audience, Tier
 - [x] S3 form: reason, chips, mode, time, audience, validation
 - [x] S4 geolocation with manual city fallback
+- [x] S5 weather client (Open-Meteo)
 
 ## To do
 
-- [ ] S5 weather client (Open-Meteo)
 - [ ] S6 traffic estimator, "Estimated, not live"
 - [ ] S7 events provider interface, demo provider, "Demo data"
 - [ ] S8 Ticketmaster provider (env key)
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S5 weather client (Open-Meteo), then S6 traffic estimate.
+S6 traffic estimate, then S7 events.
