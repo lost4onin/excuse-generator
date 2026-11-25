@@ -12,10 +12,10 @@
 - [x] S7 events provider interface, demo provider, "Demo data"
 - [x] S8 Ticketmaster provider (env key)
 - [x] S9 template fallback engine
+- [x] S10 excuse service with fallback wiring
 
 ## To do
 
-- [ ] S10 excuse service with fallback wiring
 - [ ] S11 design tokens and results UI
 - [ ] S12 copy and share
 - [ ] S13 local history and repeat warning
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S10 excuse service with fallback wiring, then S11 results UI.
+S11 results UI: three slips, stamps, re-roll, Offline mode.
