@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { requestExcuses } from "./excuseClient";
 import { browserLocate } from "./PlaceRow";
+import { browserShareTools } from "./SlipActions";
 
 /** Composition root for the browser: clock, randomness and adapters are injected here. */
 const ExcuseApp = dynamic(() => import("./ExcuseApp").then((m) => m.ExcuseApp), {
@@ -21,6 +22,7 @@ export function ClientRoot({ eventsLive }: { eventsLive: boolean }) {
       locate={browserLocate}
       requestExcuses={requestExcuses}
       eventsLive={eventsLive}
+      shareTools={browserShareTools}
     />
   );
 }

@@ -14,10 +14,10 @@
 - [x] S9 template fallback engine
 - [x] S10 excuse service with fallback wiring
 - [x] S11 design tokens and results UI
+- [x] S12 copy and share
 
 ## To do
 
-- [ ] S12 copy and share
 - [ ] S13 local history and repeat warning
 - [ ] S14 LLM prompt builder
 - [ ] S15 output schema and content-rule checker
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S12 copy and share, then S13 local history.
+S13 local history and repeat warning, then S14 prompt builder.

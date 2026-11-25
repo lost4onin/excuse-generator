@@ -11,6 +11,7 @@ import { ExcuseForm, type FormDraft } from "./ExcuseForm";
 import { Flag } from "./Flag";
 import { PlaceRow, type Locate } from "./PlaceRow";
 import { Results } from "./Results";
+import { SlipActions, type ShareTools } from "./SlipActions";
 import { TrafficRow } from "./TrafficRow";
 import box from "./ContextBox.module.css";
 import styles from "./ExcuseApp.module.css";
@@ -22,11 +23,19 @@ interface Props {
   requestExcuses: RequestExcuses;
   /** True when the server has an events key; otherwise events are demo data. */
   eventsLive: boolean;
+  shareTools: ShareTools;
 }
 
 type View = "form" | "results";
 
-export function ExcuseApp({ clock, random, locate, requestExcuses, eventsLive }: Props) {
+export function ExcuseApp({
+  clock,
+  random,
+  locate,
+  requestExcuses,
+  eventsLive,
+  shareTools,
+}: Props) {
   const [slipNo] = useState(() => String(Math.floor(random() * 9000) + 1000));
   const [draft, setDraft] = useState<FormDraft>(() => ({
     reason: "",
@@ -118,6 +127,7 @@ export function ExcuseApp({ clock, random, locate, requestExcuses, eventsLive }:
           response={response}
           busy={busy}
           onReroll={reroll}
+          actions={(excuse) => <SlipActions text={excuse.text} tools={shareTools} />}
           onEdit={() => {
             window.history.back();
           }}
