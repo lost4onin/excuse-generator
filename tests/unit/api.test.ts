@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { errorBody, parseRequest, toResponse } from "@/lib/api";
+import { errorBody, guardRequest, parseRequest, readCapped, toResponse } from "@/lib/api";
 import type { ExcuseContext } from "@/lib/domain";
 import { seeded } from "@/lib/random";
 import { templateExcuses } from "@/lib/templates";
@@ -72,5 +72,41 @@ describe("errorBody", () => {
       status: 500,
       body: { error: { kind: "internal", message: "Something went wrong." } },
     });
+  });
+});
+
+describe("guardRequest", () => {
+  const url = "https://excuses.example/api/excuses";
+  const h = (init: Record<string, string>) =>
+    new Headers({ "content-type": "application/json", ...init });
+
+  it("lets same-origin JSON through", () => {
+    expect(guardRequest(h({ origin: "https://excuses.example" }), url)).toBeNull();
+    expect(guardRequest(h({ "sec-fetch-site": "same-origin" }), url)).toBeNull();
+  });
+
+  it("blocks other origins and cross-site fetches", () => {
+    expect(guardRequest(h({ origin: "https://evil.example" }), url)?.kind).toBe("forbidden");
+    expect(guardRequest(h({ "sec-fetch-site": "cross-site" }), url)?.kind).toBe("forbidden");
+  });
+
+  it("wants JSON and a small declared body", () => {
+    expect(guardRequest(new Headers({ "content-type": "text/plain" }), url)?.kind).toBe(
+      "validation",
+    );
+    expect(guardRequest(h({ "content-length": "999999" }), url)?.message).toBe("Too large.");
+  });
+});
+
+describe("readCapped", () => {
+  const stream = (text: string) => new Response(text).body;
+
+  it("reads small bodies", async () => {
+    expect(await readCapped(stream('{"a":1}'))).toBe('{"a":1}');
+  });
+
+  it("counts bytes, not characters", async () => {
+    expect(await readCapped(stream("é".repeat(2100)))).toBeNull();
+    expect(await readCapped(stream("e".repeat(2100)))).not.toBeNull();
   });
 });

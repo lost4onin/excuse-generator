@@ -113,3 +113,51 @@ export function errorBody(e: AppError): {
   const message = e.kind === "internal" ? "Something went wrong." : e.message;
   return { status: STATUS[e.kind], body: { error: { kind: e.kind, message } } };
 }
+
+/**
+ * Cheap checks before the body is read: same-origin only, JSON only, and a
+ * declared size under the cap. Returns null when the request may proceed.
+ */
+export function guardRequest(headers: Headers, url: string): AppError | null {
+  const origin = headers.get("origin");
+  if (origin && origin !== new URL(url).origin) {
+    return { kind: "forbidden", message: "Cross-origin requests are not allowed." };
+  }
+  const site = headers.get("sec-fetch-site");
+  if (site && site !== "same-origin" && site !== "none") {
+    return { kind: "forbidden", message: "Cross-origin requests are not allowed." };
+  }
+  if (!headers.get("content-type")?.startsWith("application/json")) {
+    return { kind: "validation", message: "Send JSON." };
+  }
+  const declared = Number(headers.get("content-length") ?? "0");
+  if (!Number.isFinite(declared) || declared > MAX_BODY_BYTES) {
+    return { kind: "validation", message: "Too large." };
+  }
+  return null;
+}
+
+/** Reads at most MAX_BODY_BYTES, whatever Content-Length claimed. */
+export async function readCapped(body: ReadableStream<Uint8Array> | null): Promise<string | null> {
+  if (!body) return "";
+  const reader = body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > MAX_BODY_BYTES) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+  const all = new Uint8Array(size);
+  let offset = 0;
+  for (const c of chunks) {
+    all.set(c, offset);
+    offset += c.byteLength;
+  }
+  return new TextDecoder().decode(all);
+}

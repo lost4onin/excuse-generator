@@ -1,4 +1,4 @@
-import { errorBody, MAX_BODY_BYTES, parseRequest, toResponse } from "@/lib/api";
+import { errorBody, guardRequest, parseRequest, readCapped, toResponse } from "@/lib/api";
 import { demoEvents } from "@/lib/events";
 import { seeded } from "@/lib/random";
 import type { AppError } from "@/lib/result";
@@ -18,15 +18,10 @@ function fail(e: AppError): Response {
 }
 
 export async function POST(req: Request): Promise<Response> {
-  const origin = req.headers.get("origin");
-  if (origin && origin !== new URL(req.url).origin) {
-    return fail({ kind: "forbidden", message: "Cross-origin requests are not allowed." });
-  }
-  if (!req.headers.get("content-type")?.startsWith("application/json")) {
-    return fail({ kind: "validation", message: "Send JSON." });
-  }
-  const raw = await req.text();
-  if (raw.length > MAX_BODY_BYTES) return fail({ kind: "validation", message: "Too large." });
+  const blocked = guardRequest(req.headers, req.url);
+  if (blocked) return fail(blocked);
+  const raw = await readCapped(req.body);
+  if (raw === null) return fail({ kind: "validation", message: "Too large." });
 
   let body: unknown;
   try {
