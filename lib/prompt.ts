@@ -66,7 +66,9 @@ export function buildPrompt(ctx: ExcuseContext, avoid: readonly string[]): ChatM
   if (ctx.traffic) {
     lines.push(`Traffic (estimated, not live): ${ctx.traffic.level}, ${ctx.traffic.reason}`);
   }
-  const event = ctx.events ? overlapping(ctx.events.events, ctx.time)[0] : undefined;
+  // Demo events are invented; the model must never present them as real.
+  const event =
+    ctx.events?.quality === "live" ? overlapping(ctx.events.events, ctx.time)[0] : undefined;
   if (event) {
     lines.push(
       `Nearby event: ${sanitiseField(event.name, 120)} at ${sanitiseField(event.venue, 80)}, starts ${event.startsAt.slice(11, 16)}`,

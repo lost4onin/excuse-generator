@@ -21,7 +21,7 @@ const full: ExcuseContext = {
   },
   traffic: { quality: "estimated", level: "heavy", rushHour: true, reason: "evening rush hour" },
   events: {
-    quality: "demo",
+    quality: "live",
     events: [
       { name: "Derby Night", venue: "the main stadium", startsAt: "2026-11-25T19:00" },
       { name: "Morning Run", venue: "the river", startsAt: "2026-11-25T07:00" },
@@ -65,6 +65,14 @@ describe("buildPrompt", () => {
 
       REASON <reason>dinner</reason>"
     `);
+  });
+
+  it("leaves demo events out of the prompt", () => {
+    const demo = {
+      ...full,
+      events: { quality: "demo" as const, events: full.events?.events ?? [] },
+    };
+    expect(buildPrompt(demo, [])[1]?.content).not.toContain("Derby Night");
   });
 
   it("never includes coordinates", () => {

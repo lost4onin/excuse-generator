@@ -97,9 +97,9 @@ describe("templateExcuses", () => {
     expect(creative.flags).toEqual(["estimated"]);
   });
 
-  it("uses an event only when it overlaps the time, and stamps demo events", () => {
+  it("uses a live event only when it overlaps the time", () => {
     const events = {
-      quality: "demo" as const,
+      quality: "live" as const,
       events: [{ name: "Derby Night", venue: "the main stadium", startsAt: "2026-11-25T19:00" }],
     };
     const far = templateExcuses({ ...base, events }, seeded(2));
@@ -111,7 +111,21 @@ describe("templateExcuses", () => {
     ).excuses[1];
     expect(near.tag).toBe("event");
     expect(near.text).toContain("Derby Night");
-    expect(near.flags).toEqual(["demo"]);
+    expect(near.flags).toEqual([]);
+  });
+
+  it("never tells a demo event as fact", () => {
+    const events = {
+      quality: "demo" as const,
+      events: [{ name: "Derby Night", venue: "the main stadium", startsAt: "2026-11-25T19:00" }],
+    };
+    for (let seed = 0; seed < 30; seed++) {
+      const set = templateExcuses(
+        { ...base, time: "2026-11-25T18:30", localHour: 18, events },
+        seeded(seed),
+      );
+      for (const e of set.excuses) expect(e.text).not.toContain("Derby Night");
+    }
   });
 
   it("keeps casual stories away from formal audiences when absent", () => {

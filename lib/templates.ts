@@ -194,7 +194,8 @@ export function relevantFacts(ctx: ExcuseContext): { facts: Facts; tags: Set<Con
     tags.add("traffic");
     facts.traffic = ctx.traffic.reason.split(",")[0] ?? "rush hour";
   }
-  const nearby = ctx.events ? overlapping(ctx.events.events, ctx.time) : [];
+  // Demo events are made up: they may be shown, flagged, but never told as fact.
+  const nearby = ctx.events?.quality === "live" ? overlapping(ctx.events.events, ctx.time) : [];
   if (nearby[0]) {
     tags.add("event");
     facts.event = nearby[0];
@@ -202,9 +203,9 @@ export function relevantFacts(ctx: ExcuseContext): { facts: Facts; tags: Set<Con
   return { facts, tags };
 }
 
-function flagsFor(tag: ContextTag, ctx: ExcuseContext): DataQuality[] {
+/** Which data stamps an excuse needs, from the context it leans on. */
+export function flagsFor(tag: ContextTag): DataQuality[] {
   if (tag === "traffic") return ["estimated"];
-  if (tag === "event" && ctx.events?.quality === "demo") return ["demo"];
   return [];
 }
 
@@ -233,7 +234,7 @@ export function templateExcuses(ctx: ExcuseContext, rng: Rng): ExcuseSet {
     if (!t) {
       return { tier, tag: "none", flags: [], text: `Sorry, I can't make the ${ctx.reason}.` };
     }
-    return { tier, tag: t.tag, flags: flagsFor(t.tag, ctx), text: t.render(facts) };
+    return { tier, tag: t.tag, flags: flagsFor(t.tag), text: t.render(facts) };
   };
   const [a, b, c] = TIERS;
   return { source: "templates", excuses: [make(a), make(b), make(c)] };

@@ -1,8 +1,8 @@
 import { z } from "zod";
-import type { ContextTag, DataQuality, Excuse, ExcuseContext, Tier } from "@/lib/domain";
+import type { ContextTag, Excuse, ExcuseContext, Tier } from "@/lib/domain";
 import { TIERS } from "@/lib/domain";
 import { err, ok, type Result } from "@/lib/result";
-import { relevantFacts } from "@/lib/templates";
+import { flagsFor, relevantFacts } from "@/lib/templates";
 
 export const SAFE_MAX_WORDS = 22;
 
@@ -30,12 +30,6 @@ function tagsIn(text: string, ctx: ExcuseContext, eventName?: string): Set<Conte
   if (TRAFFIC_WORDS.test(text)) tags.add("traffic");
   if (eventName && text.toLowerCase().includes(eventName.toLowerCase())) tags.add("event");
   return tags;
-}
-
-function flagsFor(tag: ContextTag, ctx: ExcuseContext): DataQuality[] {
-  if (tag === "traffic") return ["estimated"];
-  if (tag === "event" && ctx.events?.quality === "demo") return ["demo"];
-  return [];
 }
 
 /** Strips a Markdown code fence if the model wrapped its JSON in one. */
@@ -97,7 +91,7 @@ export function checkOutput(
       return fail("tier_rule", "creative excuse must use exactly one context detail");
     }
     const tag: ContextTag = [...used][0] ?? "none";
-    out.push({ tier, text, tag, flags: flagsFor(tag, ctx) });
+    out.push({ tier, text, tag, flags: flagsFor(tag) });
   }
   const [a, b, c] = out as [Excuse, Excuse, Excuse];
   return ok([a, b, c]);
