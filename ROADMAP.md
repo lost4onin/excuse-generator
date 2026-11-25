@@ -17,10 +17,10 @@
 - [x] S12 copy and share
 - [x] S13 local history and repeat warning
 - [x] S14 LLM prompt builder
+- [x] S15 output schema and content-rule checker
 
 ## To do
 
-- [ ] S15 output schema and content-rule checker
 - [ ] S16 LLM provider adapter (needs key)
 - [ ] S17 API route
 - [ ] S18 rate limit and daily budget
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S15 output schema and content-rule checker, then S16 (needs the LLM key).
+S16 LLM adapter is gated on a key (see README). Meanwhile: S20 phone polish and S21 docs.
