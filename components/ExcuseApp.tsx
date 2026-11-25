@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { toLocalTimeValue, type FormInput } from "@/lib/form";
+import { parseLocalTime, toLocalTimeValue, type FormInput } from "@/lib/form";
+import { estimateTraffic } from "@/lib/traffic";
 import type { PlaceState } from "@/lib/place";
 import { ContextBox } from "./ContextBox";
 import { ExcuseForm, type FormDraft } from "./ExcuseForm";
 import { PlaceRow, type Locate } from "./PlaceRow";
+import { TrafficRow } from "./TrafficRow";
 import styles from "./ExcuseApp.module.css";
 
 interface Props {
@@ -24,6 +26,8 @@ export function ExcuseApp({ clock, random, locate }: Props) {
     audience: "",
   }));
   const [place, setPlace] = useState<PlaceState>({ kind: "idle" });
+  const slot = parseLocalTime(draft.localTime);
+  const traffic = slot ? estimateTraffic(slot) : null;
   const [submitted, setSubmitted] = useState<FormInput | null>(null);
 
   return (
@@ -36,6 +40,7 @@ export function ExcuseApp({ clock, random, locate }: Props) {
         context={
           <ContextBox>
             <PlaceRow place={place} onChange={setPlace} locate={locate} />
+            <TrafficRow traffic={traffic} />
           </ContextBox>
         }
       />
