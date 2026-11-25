@@ -2,7 +2,7 @@
 
 ## Done
 
-- [x] S0 baseline: licence, SECURITY.md, `.env.example`, typed config, CI, hooks
+- [x] S0 baseline: licence, SECURITY.md, `.env.example`, typed config, CI, local git hooks (not committed)
 - [x] S1 scaffold: Next.js App Router, TypeScript strict, ESLint, Prettier, Vitest
 - [x] S2 domain types: Context, Excuse, Audience, Tier
 - [x] S3 form: reason, chips, mode, time, audience, validation
@@ -12,7 +12,7 @@
 - [x] S7 events provider interface, demo provider, "Demo data"
 - [x] S8 Ticketmaster provider (env key)
 - [x] S9 template fallback engine
-- [x] S10 excuse service with fallback wiring
+- [x] S10 excuse service with fallback wiring (API route already serves templates)
 - [x] S11 design tokens and results UI
 - [x] S12 copy and share
 - [x] S13 local history and repeat warning
@@ -22,7 +22,7 @@
 ## To do
 
 - [ ] S16 LLM provider adapter (needs key)
-- [ ] S17 API route
+- [ ] S17 API route: add the LLM call (route exists, templates only)
 - [ ] S18 rate limit and daily budget
 - [ ] S19 live smoke script and prompt tuning (needs key)
 - [ ] S20 phone polish, states, motion, focus (focus handling and CSP done; loading animation left)

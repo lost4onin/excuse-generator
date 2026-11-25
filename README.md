@@ -2,7 +2,8 @@
 
 A phone-first web app: say what you are late or absent for, when, and who you
 are telling. It hands back three excuse slips (Safe, Creative, Bold) built from
-real context: weather, an estimated traffic level, your city and nearby events.
+real context: live weather, an estimated traffic level, your city and nearby
+events.
 
 Hobby project on Vercel Hobby: no ads, no payments, no accounts.
 
@@ -21,10 +22,10 @@ Requires Node 22 or newer.
 
 All variables are optional; see `.env.example`. Copy it to `.env.local`.
 
-| Variable                                   | Without it                              |
-| ------------------------------------------ | --------------------------------------- |
-| `LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY` | template excuses, marked "Offline mode" |
-| `TICKETMASTER_API_KEY`                     | demo events, marked "Demo data"         |
+| Variable                                   | Without it                                                                           |
+| ------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY` | template excuses, marked "Offline mode" (the LLM call is not wired yet, see ROADMAP) |
+| `TICKETMASTER_API_KEY`                     | demo events, marked "Demo data"                                                      |
 
 ## Privacy
 

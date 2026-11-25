@@ -7,7 +7,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Excuse Generator",
-  description: "Three believable excuses, built from real weather, traffic and events.",
+  description:
+    "Three believable excuses, built from real weather, estimated traffic and nearby events.",
 };
 
 export const viewport: Viewport = {
