@@ -19,7 +19,14 @@ export const browserShareTools: ShareTools = {
   },
 };
 
-export function SlipActions({ text, tools }: { text: string; tools: ShareTools }) {
+interface Props {
+  text: string;
+  tools: ShareTools;
+  /** Called when the slip was actually copied or shared. */
+  onUsed?: () => void;
+}
+
+export function SlipActions({ text, tools, onUsed }: Props) {
   const [note, setNote] = useState("");
   const { share } = tools;
   return (
@@ -31,6 +38,7 @@ export function SlipActions({ text, tools }: { text: string; tools: ShareTools }
           tools.copy(text).then(
             () => {
               setNote("Copied");
+              onUsed?.();
             },
             () => {
               setNote("Copy failed. Long-press the text instead.");
@@ -46,7 +54,7 @@ export function SlipActions({ text, tools }: { text: string; tools: ShareTools }
           className={styles.secondary}
           onClick={() => {
             // A cancelled share sheet rejects; that is not an error worth showing.
-            share(text).catch(() => undefined);
+            share(text).then(onUsed, () => undefined);
           }}
         >
           Share

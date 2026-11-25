@@ -15,10 +15,10 @@
 - [x] S10 excuse service with fallback wiring
 - [x] S11 design tokens and results UI
 - [x] S12 copy and share
+- [x] S13 local history and repeat warning
 
 ## To do
 
-- [ ] S13 local history and repeat warning
 - [ ] S14 LLM prompt builder
 - [ ] S15 output schema and content-rule checker
 - [ ] S16 LLM provider adapter (needs key)
@@ -32,4 +32,4 @@
 
 ## Next up
 
-S13 local history and repeat warning, then S14 prompt builder.
+S14 LLM prompt builder, then S15 output checker.

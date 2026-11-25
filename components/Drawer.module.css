@@ -1,0 +1,93 @@
+.drawer {
+  display: grid;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 400;
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.note {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.risk {
+  border: 2px solid var(--stamp);
+  color: var(--stamp);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.risk strong {
+  font-family: var(--font-title);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.risk ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.empty {
+  margin: 0;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.reason {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.text {
+  margin: 6px 0 12px;
+}
+
+.button,
+.clear {
+  min-height: 44px;
+  padding: 0 14px;
+  background: transparent;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  font-family: var(--font-title);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.clear {
+  justify-self: center;
+  border-color: var(--stamp);
+  color: var(--stamp);
+}
+
+.copied {
+  margin-left: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}

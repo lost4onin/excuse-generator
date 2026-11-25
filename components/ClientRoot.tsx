@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { localHistoryStore } from "@/lib/history";
 import { requestExcuses } from "./excuseClient";
 import { browserLocate } from "./PlaceRow";
 import { browserShareTools } from "./SlipActions";
@@ -13,6 +14,9 @@ const ExcuseApp = dynamic(() => import("./ExcuseApp").then((m) => m.ExcuseApp), 
 
 const clock = () => new Date();
 const random = () => Math.random();
+const history = localHistoryStore(() =>
+  typeof window === "undefined" ? null : window.localStorage,
+);
 
 export function ClientRoot({ eventsLive }: { eventsLive: boolean }) {
   return (
@@ -23,6 +27,7 @@ export function ClientRoot({ eventsLive }: { eventsLive: boolean }) {
       requestExcuses={requestExcuses}
       eventsLive={eventsLive}
       shareTools={browserShareTools}
+      history={history}
     />
   );
 }

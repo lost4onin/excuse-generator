@@ -17,3 +17,36 @@
 .footer a {
   color: var(--ink);
 }
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.nav button {
+  min-height: 44px;
+  padding: 0 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--font-title);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.nav button[aria-current="page"] {
+  text-decoration-thickness: 3px;
+}
+
+.warning {
+  margin: 12px 0 0;
+  padding: 6px 8px;
+  border: 2px solid var(--stamp);
+  color: var(--stamp);
+  font-size: 13px;
+}

@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import type { ExcuseResponse } from "@/lib/api";
+import type { Excuse } from "@/lib/domain";
 import { parseLocalTime, toLocalTimeValue, type FormInput } from "@/lib/form";
+import { addEntry, repeatRisk, type HistoryEntry, type HistoryStore } from "@/lib/history";
 import type { PlaceState } from "@/lib/place";
 import { estimateTraffic } from "@/lib/traffic";
 import { ContextBox } from "./ContextBox";
+import { Drawer } from "./Drawer";
 import type { RequestExcuses } from "./excuseClient";
 import { ExcuseForm, type FormDraft } from "./ExcuseForm";
 import { Flag } from "./Flag";
@@ -24,9 +27,10 @@ interface Props {
   /** True when the server has an events key; otherwise events are demo data. */
   eventsLive: boolean;
   shareTools: ShareTools;
+  history: HistoryStore;
 }
 
-type View = "form" | "results";
+type View = "form" | "results" | "drawer";
 
 export function ExcuseApp({
   clock,
@@ -35,6 +39,7 @@ export function ExcuseApp({
   requestExcuses,
   eventsLive,
   shareTools,
+  history,
 }: Props) {
   const [slipNo] = useState(() => String(Math.floor(random() * 9000) + 1000));
   const [draft, setDraft] = useState<FormDraft>(() => ({
@@ -49,11 +54,12 @@ export function ExcuseApp({
   const [lastInput, setLastInput] = useState<FormInput | null>(null);
   const [response, setResponse] = useState<ExcuseResponse | null>(null);
   const [busy, setBusy] = useState(false);
+  const [entries, setEntries] = useState<HistoryEntry[]>(() => history.load());
 
   const slot = parseLocalTime(draft.localTime);
   const traffic = slot ? estimateTraffic(slot) : null;
 
-  // Browser back from Results returns to the form, inputs intact.
+  // Browser back always returns to the form, inputs intact.
   useEffect(() => {
     const onPop = () => {
       setView("form");
@@ -64,6 +70,18 @@ export function ExcuseApp({
     };
   }, []);
 
+  const go = (next: View) => {
+    if (next === view) return;
+    if (next === "form") {
+      window.history.back();
+      return;
+    }
+    if (view === "form") window.history.pushState({ view: next }, "");
+    else window.history.replaceState({ view: next }, "");
+    setView(next);
+    window.scrollTo({ top: 0 });
+  };
+
   const issue = async (input: FormInput, avoid: string[]) => {
     setBusy(true);
     setLastInput(input);
@@ -71,11 +89,7 @@ export function ExcuseApp({
     const res = await requestExcuses(input, place, avoid, seed);
     setResponse(res);
     setBusy(false);
-    if (view !== "results") {
-      window.history.pushState({ view: "results" }, "");
-      setView("results");
-      window.scrollTo({ top: 0 });
-    }
+    go("results");
   };
 
   const reroll = () => {
@@ -86,8 +100,66 @@ export function ExcuseApp({
     );
   };
 
+  const remember = (excuse: Excuse) => {
+    if (!lastInput || response?.set.source === "refusal") return;
+    const now = clock();
+    const next = addEntry(entries, {
+      id: `${String(now.getTime())}-${String(Math.floor(random() * 1e6))}`,
+      at: now.toISOString(),
+      audience: lastInput.audience,
+      reason: lastInput.reason,
+      tier: excuse.tier,
+      tag: excuse.tag,
+      text: excuse.text,
+    });
+    setEntries(next);
+    history.save(next);
+  };
+
+  const slipActions = (excuse: Excuse) => {
+    const risky =
+      lastInput !== null && repeatRisk(entries, lastInput.audience, excuse, clock()).length > 0;
+    return (
+      <>
+        {risky && (
+          <p className={styles.warning}>
+            Repeat risk: you told your {lastInput.audience} something like this recently.
+          </p>
+        )}
+        <SlipActions
+          text={excuse.text}
+          tools={shareTools}
+          onUsed={() => {
+            remember(excuse);
+          }}
+        />
+      </>
+    );
+  };
+
   return (
     <main className={styles.shell}>
+      <nav className={styles.nav} aria-label="Views">
+        <button
+          type="button"
+          aria-current={view === "form" ? "page" : undefined}
+          onClick={() => {
+            go("form");
+          }}
+        >
+          New
+        </button>
+        <button
+          type="button"
+          aria-current={view === "drawer" ? "page" : undefined}
+          onClick={() => {
+            go("drawer");
+          }}
+        >
+          Drawer ({entries.length})
+        </button>
+      </nav>
+
       {view === "form" && (
         <ExcuseForm
           slipNo={slipNo}
@@ -127,9 +199,22 @@ export function ExcuseApp({
           response={response}
           busy={busy}
           onReroll={reroll}
-          actions={(excuse) => <SlipActions text={excuse.text} tools={shareTools} />}
           onEdit={() => {
-            window.history.back();
+            go("form");
+          }}
+          actions={slipActions}
+        />
+      )}
+      {view === "drawer" && (
+        <Drawer
+          entries={entries}
+          now={clock()}
+          onReuse={(e) => {
+            return shareTools.copy(e.text);
+          }}
+          onClear={() => {
+            setEntries([]);
+            history.save([]);
           }}
         />
       )}
