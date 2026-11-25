@@ -25,11 +25,12 @@
 - [ ] S17 API route
 - [ ] S18 rate limit and daily budget
 - [ ] S19 live smoke script and prompt tuning (needs key)
-- [ ] S20 phone polish, states, motion, focus
+- [ ] S20 phone polish, states, motion, focus (focus handling and CSP done; loading animation left)
 - [ ] S21 docs, Playwright phone smoke, deploy notes
 - [ ] SZ security review
 - [ ] S22 reviewer pass fixes
 
 ## Next up
 
-S16 LLM adapter is gated on a key (see README). Meanwhile: S20 phone polish and S21 docs.
+S16 LLM adapter, waiting for an API key in `.env.local`. Until then: finish S20,
+then S21 (Playwright phone smoke, deploy notes).
