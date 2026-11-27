@@ -18,19 +18,19 @@
 - [x] S13 local history and repeat warning
 - [x] S14 LLM prompt builder
 - [x] S15 output schema and content-rule checker
+- [x] S18 rate limit and daily budget (Upstash or in-memory; budget is checked once S17 calls the LLM)
+- [x] S20 phone polish, states, motion, focus
+- [x] S21 docs, Playwright phone smoke, deploy notes
 
 ## To do
 
 - [ ] S16 LLM provider adapter (needs key)
 - [ ] S17 API route: add the LLM call (route exists, templates only)
-- [x] S18 rate limit and daily budget (Upstash or in-memory; budget is checked once S17 calls the LLM)
 - [ ] S19 live smoke script and prompt tuning (needs key)
-- [x] S20 phone polish, states, motion, focus
-- [ ] S21 docs, Playwright phone smoke, deploy notes
 - [ ] SZ security review
 - [ ] S22 reviewer pass fixes
 
 ## Next up
 
-S16 LLM adapter, waiting for an API key in `.env.local`. Until then: finish S20,
-then S21 (Playwright phone smoke, deploy notes).
+S16 LLM adapter, waiting for an API key in `.env.local`. Everything that does
+not need the key is built; then S17, S19, SZ and S22.

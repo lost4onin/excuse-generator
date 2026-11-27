@@ -45,8 +45,15 @@ the LLM call is wired.
 
 ## Deploy
 
-Import the repo in Vercel (Hobby). Every push to `main` deploys. Set the
-variables above in Project Settings, Environment Variables.
+1. Import the repo in Vercel (Hobby). Every push to `main` deploys.
+2. Add Upstash Redis from the Vercel Marketplace (free plan) and connect it to
+   the project; it sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
+3. Optional: set the LLM variables (any OpenAI-compatible free tier, Groq is
+   the suggested one) and `TICKETMASTER_API_KEY` in Project Settings,
+   Environment Variables, then redeploy.
+
+The footer credits Open-Meteo (CC BY 4.0, non-commercial), which this hobby
+deployment respects: no ads, no payments.
 
 ## Licence
 
