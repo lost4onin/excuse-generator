@@ -25,7 +25,7 @@
 - [ ] S17 API route: add the LLM call (route exists, templates only)
 - [ ] S18 rate limit and daily budget
 - [ ] S19 live smoke script and prompt tuning (needs key)
-- [ ] S20 phone polish, states, motion, focus (focus handling and CSP done; loading animation left)
+- [x] S20 phone polish, states, motion, focus
 - [ ] S21 docs, Playwright phone smoke, deploy notes
 - [ ] SZ security review
 - [ ] S22 reviewer pass fixes

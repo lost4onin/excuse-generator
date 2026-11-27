@@ -1,0 +1,66 @@
+.typing {
+  display: grid;
+  gap: 10px;
+}
+
+.line {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 18px;
+}
+
+.bars {
+  display: grid;
+  gap: 8px;
+}
+
+/* Typed lines: ink rules of different lengths. */
+.bars span {
+  display: block;
+  height: 2px;
+  background: var(--ink);
+  width: 90%;
+}
+
+.bars span:nth-child(2) {
+  width: 70%;
+}
+
+.bars span:nth-child(3) {
+  width: 40%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .line::after {
+    content: "_";
+    animation: caret 800ms steps(1) infinite;
+  }
+
+  .bars span {
+    transform-origin: left;
+    animation: type 1200ms steps(12) infinite;
+  }
+
+  .bars span:nth-child(2) {
+    animation-delay: 200ms;
+  }
+
+  .bars span:nth-child(3) {
+    animation-delay: 400ms;
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes type {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

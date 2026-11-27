@@ -16,6 +16,7 @@ import { PlaceRow, type Locate } from "./PlaceRow";
 import { Results } from "./Results";
 import { SlipActions, type ShareTools } from "./SlipActions";
 import { TrafficRow } from "./TrafficRow";
+import { TypingSlip } from "./TypingSlip";
 import box from "./ContextBox.module.css";
 import styles from "./ExcuseApp.module.css";
 
@@ -218,6 +219,7 @@ export function ExcuseApp({
           }}
         />
       )}
+      {busy && <TypingSlip />}
       <footer className={styles.footer}>
         <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">
           Weather by Open-Meteo
