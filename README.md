@@ -13,6 +13,7 @@ Hobby project on Vercel Hobby: no ads, no payments, no accounts.
 npm install
 npm run dev        # http://localhost:3000
 npm test           # unit tests
+npm run build && npm run test:e2e   # 360px phone smoke test (Playwright)
 npm run lint && npm run typecheck
 ```
 
