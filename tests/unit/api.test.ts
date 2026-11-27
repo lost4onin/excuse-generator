@@ -68,6 +68,7 @@ describe("toResponse", () => {
 describe("errorBody", () => {
   it("maps kinds to statuses and hides internals", () => {
     expect(errorBody({ kind: "validation", message: "bad" }).status).toBe(400);
+    expect(errorBody({ kind: "rate_limited", message: "slow down" }).status).toBe(429);
     expect(errorBody({ kind: "internal", message: "stack trace here" })).toEqual({
       status: 500,
       body: { error: { kind: "internal", message: "Something went wrong." } },

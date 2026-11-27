@@ -1,25 +1,49 @@
 import { errorBody, guardRequest, parseRequest, readCapped, toResponse } from "@/lib/api";
 import { demoEvents } from "@/lib/events";
 import { seeded } from "@/lib/random";
+import { clientIp, clientKey, createLimiter, DEFAULT_LIMITS, memoryStore } from "@/lib/ratelimit";
 import type { AppError } from "@/lib/result";
 import { buildContext, generate } from "@/lib/service";
 import { getConfig } from "@/lib/server/env";
 import { ticketmaster } from "@/lib/ticketmaster";
+import { upstashStore } from "@/lib/upstash";
 import { openMeteo } from "@/lib/weather";
 
 export const dynamic = "force-dynamic";
 
 // Composition root for the server. Module scope only holds keyless adapters.
-const weather = openMeteo(fetch, { now: () => Date.now() });
+const now = () => Date.now();
+const weather = openMeteo(fetch, { now });
+// Fallback counters when no shared store is configured: per instance, best effort.
+const localCounters = memoryStore(now);
+const localSalt = crypto.randomUUID();
 
-function fail(e: AppError): Response {
+function fail(e: AppError, headers: Record<string, string> = {}): Response {
   const { status, body } = errorBody(e);
-  return Response.json(body, { status, headers: { "cache-control": "no-store" } });
+  return Response.json(body, { status, headers: { "cache-control": "no-store", ...headers } });
 }
 
 export async function POST(req: Request): Promise<Response> {
   const blocked = guardRequest(req.headers, req.url);
   if (blocked) return fail(blocked);
+
+  let config;
+  try {
+    config = getConfig();
+  } catch {
+    return fail({ kind: "internal", message: "internal" });
+  }
+  const store = config.upstash ? upstashStore(fetch, config.upstash) : localCounters;
+  const limiter = createLimiter(store, now, DEFAULT_LIMITS);
+  const client = await clientKey(clientIp(req.headers), config.upstash?.token ?? localSalt);
+  const verdict = await limiter.check(client);
+  if (!verdict.allowed) {
+    return fail(
+      { kind: "rate_limited", message: "Too many slips. Try again shortly." },
+      { "retry-after": String(verdict.retryAfterSeconds) },
+    );
+  }
+
   const raw = await readCapped(req.body);
   if (raw === null) return fail({ kind: "validation", message: "Too large." });
 
@@ -33,7 +57,6 @@ export async function POST(req: Request): Promise<Response> {
   if (!parsed.ok) return fail(parsed.error);
 
   try {
-    const config = getConfig();
     const events = config.ticketmasterApiKey
       ? ticketmaster(fetch, config.ticketmasterApiKey)
       : demoEvents;

@@ -1,5 +1,6 @@
 /** Errors as values. Kinds map to responses in one place (the API route). */
-export type ErrorKind = "validation" | "not_found" | "forbidden" | "upstream" | "internal";
+export type ErrorKind =
+  "validation" | "not_found" | "forbidden" | "rate_limited" | "upstream" | "internal";
 
 export interface AppError {
   kind: ErrorKind;

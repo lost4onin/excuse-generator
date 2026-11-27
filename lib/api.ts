@@ -101,6 +101,7 @@ const STATUS: Record<ErrorKind, number> = {
   validation: 400,
   not_found: 404,
   forbidden: 403,
+  rate_limited: 429,
   upstream: 502,
   internal: 500,
 };

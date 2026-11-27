@@ -3,13 +3,14 @@ import { ConfigError, parseConfig } from "@/lib/config";
 
 describe("parseConfig", () => {
   it("runs with no optional services", () => {
-    expect(parseConfig({})).toEqual({ llm: null, ticketmasterApiKey: null });
+    expect(parseConfig({})).toEqual({ llm: null, ticketmasterApiKey: null, upstash: null });
   });
 
   it("treats blank values as unset", () => {
     expect(parseConfig({ LLM_API_KEY: "  ", TICKETMASTER_API_KEY: "" })).toEqual({
       llm: null,
       ticketmasterApiKey: null,
+      upstash: null,
     });
   });
 
@@ -44,5 +45,20 @@ describe("parseConfig", () => {
     } catch (e) {
       expect(String(e)).not.toContain(secret);
     }
+  });
+
+  it("reads the Upstash pair under either name, and only from upstash.io over https", () => {
+    const url = "https://eu1-example.upstash.io";
+    expect(parseConfig({ KV_REST_API_URL: url, KV_REST_API_TOKEN: "t" }).upstash).toEqual({
+      url,
+      token: "t",
+    });
+    expect(
+      parseConfig({ UPSTASH_REDIS_REST_URL: url, UPSTASH_REDIS_REST_TOKEN: "t" }).upstash,
+    ).toEqual({ url, token: "t" });
+    expect(() =>
+      parseConfig({ KV_REST_API_URL: "https://evil.example", KV_REST_API_TOKEN: "t" }),
+    ).toThrow(/KV_REST_API_URL/);
+    expect(() => parseConfig({ KV_REST_API_URL: url })).toThrow(ConfigError);
   });
 });

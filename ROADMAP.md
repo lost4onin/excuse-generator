@@ -23,7 +23,7 @@
 
 - [ ] S16 LLM provider adapter (needs key)
 - [ ] S17 API route: add the LLM call (route exists, templates only)
-- [ ] S18 rate limit and daily budget
+- [x] S18 rate limit and daily budget (Upstash or in-memory; budget is checked once S17 calls the LLM)
 - [ ] S19 live smoke script and prompt tuning (needs key)
 - [x] S20 phone polish, states, motion, focus
 - [ ] S21 docs, Playwright phone smoke, deploy notes
